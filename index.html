@@ -1,42 +1,79 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>STIS - Temporary Map Access</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STIS - Temporary Map Access</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 60px 20px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #17365D;
+        }
+
+        #mapContent,
+        #expiredContent {
+            display: none;
+        }
+
+        #expiredContent h1 {
+            color: #C62828;
+        }
+    </style>
 </head>
-<body style="font-family:Arial;text-align:center;padding:60px">
 
-  <div id="mapContent" style="display:none">
-    <h1>STIS - Sales Territory Intelligence System</h1>
-    <h2>Temporary Map Access Test</h2>
-    <p>Map access is currently active.</p>
-    <p>No merchant data has been published.</p>
-  </div>
+<body>
 
-  <div id="expiredContent" style="display:none">
-    <h1>STIS - Access Expired</h1>
-    <p>This map link is no longer available.</p>
-  </div>
+    <div id="mapContent">
+        <h1>STIS - Sales Territory Intelligence System</h1>
+        <h2>Temporary Map Access Test</h2>
+        <p>Map access is currently active.</p>
+        <p>No merchant data has been published.</p>
+    </div>
 
-  <script>
-    // Test expiration: October 26, 2026, 11:00 AM Egypt time
-    const expiryDate = new Date("2026-10-26T11:00:00+03:00");
+    <div id="expiredContent">
+        <h1>STIS - Access Expired</h1>
+        <h2>This map link is no longer available.</h2>
+        <p>Please contact the system administrator.</p>
+    </div>
 
-    function checkExpiry() {
-      const expired = Date.now() >= expiryDate.getTime();
+    <script>
+        // Expiration test: October 25, 2026 at 9:00 AM Egypt time
+        const expiryDate = new Date("2026-10-25T09:00:00+03:00");
 
-      document.getElementById("mapContent").style.display =
-        expired ? "none" : "block";
+        function checkExpiry() {
+            const expired = Date.now() >= expiryDate.getTime();
 
-      document.getElementById("expiredContent").style.display =
-        expired ? "block" : "none";
-    }
+            document.getElementById("mapContent").style.display =
+                expired ? "none" : "block";
 
-    checkExpiry();
-    setInterval(checkExpiry, 10000);
-  </script>
+            document.getElementById("expiredContent").style.display =
+                expired ? "block" : "none";
+        }
+
+        checkExpiry();
+
+        // Check every 10 seconds
+        setInterval(checkExpiry, 10000);
+
+        // Discourage ordinary page saving
+        document.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener("keydown", function(e) {
+            if ((e.ctrlKey || e.metaKey) &&
+                e.key.toLowerCase() === "s") {
+                e.preventDefault();
+            }
+        });
+    </script>
 
 </body>
 </html>
